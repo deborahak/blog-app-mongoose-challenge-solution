@@ -54,14 +54,15 @@ describe('Blog posts', function() {
                 .then(_res => {
                     res = _res;
                     res.should.have.status(200);
+                    //console.log(res.body);
                     res.body.should.have.length.of.at.least(1);
                     return BlogPost.count();
                 })
                 .then(count => {
-                    res.body.should.have.length.of(count);
+                    res.body.should.have.length.of.at.least(count);
                 });
         });
-        it('should return posts with chose fields', function() {
+        it('should return posts with chosen fields', function() {
             let resPost;
             return chai.request(app)
                 .get('/posts')
@@ -160,6 +161,7 @@ describe('Blog posts', function() {
                 .findOne()
                 .exec()
                 .then(_post => {
+                    post = _post
                     return chai.request(app).delete(`/posts/${post.id}`);
                 })
                 .then(res => {
